@@ -4,7 +4,13 @@ const gameWrap = document.getElementById('game-wrap');
 const fullscreen = document.getElementById('fullscreen');
 document.getElementById('focus').addEventListener('click', () => {
   frame.scrollIntoView({ block: 'center' });
-  frame.contentWindow.focus();
+  try { frame.contentWindow.focus(); } catch {}
+});
+gameWrap.addEventListener('click', () => {
+  try { frame.contentWindow.focus(); } catch {}
+});
+frame.addEventListener('load', () => {
+  try { frame.contentWindow.focus(); } catch {}
 });
 fullscreen.addEventListener('click', async () => {
   try {

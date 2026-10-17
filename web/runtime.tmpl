@@ -37,17 +37,38 @@ async def custom_site():
 
 
     # unpack filesystem from compressed archive into work dir
-    if platform.window.location.host.find('.itch.zone')>0:
-        import zipfile
-        async with platform.fopen("{{cookiecutter.archive}}.apk", "rb") as archive:
-            with zipfile.ZipFile(archive) as zip_ref:
-                zip_ref.extractall(appdir.as_posix())
-    else:
-        import tarfile
-        async with platform.fopen("{{cookiecutter.archive}}.tar.gz", "rb") as archive:
-            tar = tarfile.open(fileobj=archive, mode="r:gz")
-            tar.extractall(path=appdir.as_posix(), filter='tar')
-            tar.close()
+    unpacked = False
+    for archive_name in ("{{cookiecutter.archive}}.apk", "{{cookiecutter.archive}}.tar.gz"):
+        try:
+            if archive_name.endswith((".apk", ".zip")):
+                import zipfile
+                async with platform.fopen(archive_name, "rb") as archive:
+                    with zipfile.ZipFile(archive) as zip_ref:
+                        zip_ref.extractall(appdir.as_posix())
+                unpacked = True
+                print(f"Successfully unpacked {archive_name} via zipfile")
+                break
+            else:
+                import tarfile
+                async with platform.fopen(archive_name, "rb") as archive:
+                    try:
+                        tar = tarfile.open(fileobj=archive, mode="r:*")
+                    except Exception:
+                        archive.seek(0)
+                        tar = tarfile.open(fileobj=archive, mode="r")
+                    try:
+                        tar.extractall(path=appdir.as_posix(), filter='tar')
+                    except TypeError:
+                        tar.extractall(path=appdir.as_posix())
+                    tar.close()
+                unpacked = True
+                print(f"Successfully unpacked {archive_name} via tarfile")
+                break
+        except Exception as e:
+            print(f"Archive unpacking attempt for {archive_name} failed: {e}")
+
+    if not unpacked:
+        raise RuntimeError("Failed to unpack game assets archive.")
 
     # preloader will change to work dir and prepend it to sys.path
     platform.run_main(PyConfig, loaderhome= appdir / "assets", loadermain=None)
@@ -63,18 +84,17 @@ async def custom_site():
     # before a gesture is recorded ( touch or click )
 
     # test/wait user media interaction
+    __import__(__name__).__file__ = main
     if not platform.window.MM.UME:
-
-        # now that apk is mounted we have access to font cache
-        # but we need to fill __file__ that is not yet set
-        __import__(__name__).__file__ = main
-
-        # now make a prompt
         msg  = "Ліс готовий. Натисніть, щоб увійти  →"
         platform.window.infobox.innerText = msg
+        platform.window.infobox.style.cursor = "pointer"
         print("\n"*4, f"    * Waiting for media user engagement. {msg} *" , "\n"*4)
 
-        while not platform.window.MM.UME:
+        # Allow user interaction or auto-proceed after brief timeout so game never hangs
+        for _ in range(40):
+            if platform.window.MM.UME:
+                break
             await asyncio.sleep(.1)
 
     # start async top level machinery if not started and add a console in any case if requested.
@@ -454,6 +474,24 @@ frameborder="1"
     });
     window.addEventListener('resize', show_infobox);
 
+    function unlockMedia() {
+        if (window.MM) window.MM.UME = true;
+        const box = document.getElementById('infobox');
+        if (box && box.innerText && box.innerText.includes('Ліс готовий')) {
+            box.style.display = 'none';
+        }
+    }
+    window.addEventListener('click', unlockMedia, { capture: true });
+    window.addEventListener('pointerdown', unlockMedia, { capture: true });
+    window.addEventListener('touchstart', unlockMedia, { capture: true });
+    window.addEventListener('keydown', unlockMedia, { capture: true });
+    document.addEventListener('DOMContentLoaded', () => {
+        const box = document.getElementById('infobox');
+        if (box) {
+            box.addEventListener('click', unlockMedia);
+            box.addEventListener('pointerdown', unlockMedia);
+        }
+    });
     </script>
 
 </body>

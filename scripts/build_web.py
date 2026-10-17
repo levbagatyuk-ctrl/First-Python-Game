@@ -30,11 +30,11 @@ def make_icon(path):
 
 
 def build():
+    if STAGE.exists():
+        shutil.rmtree(STAGE)
     STAGE.mkdir(parents=True, exist_ok=True)
     for name in ("main.py", "RPG_Game.py", "rpg_core.py"):
         shutil.copy2(ROOT / name, STAGE / name)
-    if (STAGE / "assets").exists():
-        shutil.rmtree(STAGE / "assets")
     shutil.copytree(ROOT / "assets", STAGE / "assets")
     make_icon(STAGE / "favicon.png")
     subprocess.run([sys.executable, "-m", "pygbag", "--build", "--no_opt",
@@ -44,7 +44,7 @@ def build():
                     "--template", str(ROOT / "web" / "runtime.tmpl"),
                     "--icon", str(STAGE / "favicon.png"), str(STAGE)], check=True, cwd=ROOT)
     game_output = STAGE / "build" / "web"
-    if not (game_output / "index.html").is_file() or not list(game_output.glob("*.tar.gz")):
+    if not (game_output / "index.html").is_file() or not (list(game_output.glob("*.apk")) or list(game_output.glob("*.tar.gz"))):
         raise SystemExit("Pygbag did not produce a complete web build.")
     if DIST.exists():
         shutil.rmtree(DIST)
