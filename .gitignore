@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+build/
+dist/
+artifacts/
+node_modules/
+netlify-deploy.zip
+.pytest_cache/

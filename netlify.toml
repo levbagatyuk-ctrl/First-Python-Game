@@ -1,0 +1,8 @@
+[build]
+  command = "python -m pip install -r requirements-build.txt && python scripts/build_web.py"
+  publish = "dist"
+
+[build.environment]
+  PYTHON_VERSION = "3.12"
+
+# No redirects are needed: every URL points to a real static file.

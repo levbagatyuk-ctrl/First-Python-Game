@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101c1d">
+  <meta name="description" content="Ліс відлунь — затишна 2D RPG. Досліджуй ліс, знаходь джерела світла й повертай життя разом із маленьким мандрівником.">
+  <title>Ліс відлунь — маленький герой, велика пригода</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="site">
+    <header>
+      <a class="wordmark" href="./" aria-label="Ліс відлунь — головна">
+        <svg viewBox="0 0 32 40" aria-hidden="true"><path d="m16 2 13 20-13 16L3 22Z" fill="#a8d797"/><path d="M16 2v36L3 22Z" fill="#e5f1cd"/><path d="m16 2 13 20-13-5Z" fill="#7aac83"/></svg>
+        <span>ECHO FOREST<small>ЛІС ВІДЛУНЬ</small></span>
+      </a>
+      <nav aria-label="Навігація">
+        <a href="#how-to-play">Як грати <span>↗</span></a>
+        <span class="edition">ПРИГОДА 001</span>
+      </nav>
+    </header>
+    <main>
+      <div class="intro">
+        <div><p class="eyebrow"><span></span> ТВОЯ НАСТУПНА МАЛЕНЬКА ПРИГОДА</p><h1>Там, де прокидається світло.</h1></div>
+        <p class="intro-note">Загубись у лісі.<br>Знайди щось більше.</p>
+      </div>
+      <section class="game-wrap" id="game-wrap" aria-label="Гра Ліс відлунь">
+        <iframe id="game" title="Ліс відлунь — інтерактивна 2D RPG" src="game/index.html" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <noscript><p>Для гри увімкніть JavaScript у браузері.</p></noscript>
+      </section>
+      <div class="game-toolbar">
+        <div class="live"><span></span> Один герой. Цілий світ.</div>
+        <div class="toolbar-actions"><button id="focus" type="button">Повернутися до гри <span>↵</span></button><button id="fullscreen" type="button" aria-label="Відкрити гру на весь екран">На весь екран <span>⛶</span></button></div>
+      </div>
+      <p class="mobile-note">На телефоні зручніше грати горизонтально. Торкніться гри — з'явиться сенсорне керування.</p>
+      <section class="guide" id="how-to-play" aria-labelledby="guide-title">
+        <div class="guide-heading"><p class="eyebrow">ПЕРШІ КРОКИ</p><h2 id="guide-title">Дослухайся до лісу.</h2><p>Поговори з Мірою біля вогнища. Здолай охоронців, пробуди три джерела та відкрий Браму світанку.</p></div>
+        <div class="controls">
+          <div><span class="keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>Досліджувати</span></div>
+          <div><span class="keys"><kbd class="wide">Space</kbd></span><span>Удар мечем</span></div>
+          <div><span class="keys"><kbd>Q</kbd><kbd class="wide">Shift</kbd></span><span>Магія / ривок</span></div>
+          <div><span class="keys"><kbd>E</kbd><kbd>F</kbd></span><span>Взаємодія / зілля</span></div>
+          <div><span class="keys"><kbd class="wide">Tab</kbd><kbd>I</kbd></span><span>Мапа / рюкзак</span></div>
+          <div><span class="keys"><kbd class="wide">Esc</kbd><kbd>V</kbd></span><span>Пауза / звук</span></div>
+        </div>
+      </section>
+      <div class="field-notes"><p><span>01</span> Вогнище безкоштовно відновлює сили.</p><p><span>02</span> Крамар покращує клинок і захист.</p><p><span>03</span> Подорож зберігається в цьому браузері.</p></div>
+      <details><summary>Гра довго завантажується?</summary><p>Перший запуск завантажує ігрове середовище й може тривати до хвилини. Потрібні інтернет і сучасний браузер із WebAssembly. Коли з'явиться повідомлення «Ліс готовий», натисніть усередині гри. Якщо завантаження не завершилося, оновіть сторінку та перевірте, чи доступний pygame-web.github.io. Приватний режим або очищення даних браузера можуть видалити збереження.</p><button id="reload" type="button">Перезапустити завантаження ↻</button></details>
+    </main>
+    <footer><span>ЛІС ВІДЛУНЬ <span class="footer-star">✦</span> ECHO FOREST</span><span>Маленьке світло має значення.</span></footer>
+  </div>
+  <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+/game/*.tar.gz
+  Content-Type: application/gzip
+/game/*.apk
+  Content-Type: application/zip
