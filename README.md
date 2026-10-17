@@ -155,3 +155,4 @@ python scripts/browser_smoke.py
 - [pygame-ce](https://pyga.me/) — LGPL; [pygbag](https://github.com/pygame-web/pygbag) — MIT. Адаптований `web/runtime.tmpl` походить із pygbag 0.9.3; повідомлення ліцензії — `web/PYGBAG-LICENSE.txt`.
 - Офіційні інструкції: [pygbag](https://pygame-web.github.io/), [Netlify — ручна публікація](https://docs.netlify.com/manage/projects/add-new-project/).
 # First-Python-Game
+# First-Python-Game
